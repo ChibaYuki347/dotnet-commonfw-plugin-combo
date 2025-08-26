@@ -19,12 +19,21 @@ public sealed class PluginManager : IAsyncDisposable
             AllowTrailingCommas = true
         }) ?? throw new InvalidOperationException("Invalid plugins.json");
 
+        var absVersion = typeof(IPlugin).Assembly.GetName().Version ?? new Version(0, 0, 0, 0);
+        var absSemVer = new Version(absVersion.Major, absVersion.Minor, absVersion.Build < 0 ? 0 : absVersion.Build);
+
         foreach (var e in manifest.Enabled ?? Array.Empty<PluginEntry>())
         {
             ct.ThrowIfCancellationRequested();
             var basePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, e.Path ?? string.Empty));
             if (!Directory.Exists(basePath))
                 throw new DirectoryNotFoundException(basePath);
+
+            // 互換性チェック（min/maxAbstractions が指定されている場合）
+            if (TryParseVersion(e.MinAbstractions, out var minV) && absSemVer < minV)
+                throw new InvalidOperationException($"{e.Id} requires Abstractions >= {minV}, but host has {absSemVer}");
+            if (TryParseVersion(e.MaxAbstractions, out var maxV) && absSemVer >= maxV)
+                throw new InvalidOperationException($"{e.Id} requires Abstractions < {maxV}, but host has {absSemVer}");
 
             string? mainDll = e.Main;
             if (string.IsNullOrWhiteSpace(mainDll))
@@ -64,5 +73,14 @@ public sealed class PluginManager : IAsyncDisposable
         public string? Id { get; set; }
         public string? Path { get; set; }
         public string? Main { get; set; }
+        public string? MinAbstractions { get; set; }
+        public string? MaxAbstractions { get; set; }
+    }
+
+    private static bool TryParseVersion(string? s, out Version v)
+    {
+        if (!string.IsNullOrWhiteSpace(s) && Version.TryParse(s, out v!)) return true;
+        v = new Version(0,0,0);
+        return false;
     }
 }

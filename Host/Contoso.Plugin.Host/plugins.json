@@ -1,6 +1,6 @@
 {
   "probes": ["./Plugins"],
   "enabled": [
-  { "id": "Tax.JP", "path": "Plugins/Tax.JP/v1.0.0" }
+    { "id": "Tax.JP", "path": "Plugins/Tax.JP/v1.0.0", "minAbstractions": "2.0.0", "maxAbstractions": "3.0.0" }
   ]
 }

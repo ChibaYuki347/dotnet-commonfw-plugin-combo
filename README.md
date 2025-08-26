@@ -16,6 +16,25 @@ publish せずに開発中でも実行できます。
 
 MSBuild ターゲットにより、`plugins.json` と JP プラグイン成果物がホストの出力先にコピーされ、`Plugins/Tax.JP/v1.0.0` を自動で発見できます。
 
+## Publish 手順（日本語）
+共通FW／Abstractions（NuGet成果物）
+- バージョンは SemVer 準拠。CPM（`Directory.Packages.props`）で依存を一元管理。
+- 例（ローカルnupkg作成）:
+	- `dotnet pack .\Abstractions\Contoso.Plugin.Abstractions -c Release -o .\artifacts\nupkgs`
+	- `dotnet pack .\Framework\Contoso.Framework -c Release -o .\artifacts\nupkgs`
+
+プラグイン（publishフォルダ一式）
+- RID別に publish し、フォルダ単位で配置/切替。
+- 例（Windows x64 / FDD）:
+	- `dotnet publish .\Plugins\Tax.JP -c Release -r win-x64 --self-contained false -o .\dist\Plugins\Tax.JP\v1.0.0`
+- ホストの publish:
+	- `dotnet publish .\Host\Contoso.Plugin.Host -c Release -r win-x64 --self-contained false -o .\dist\Host`
+- `dist/Host/plugins.json` でパスを指す。
+
+成果物の違い
+- 共通FW/Abstractions: NuGet パッケージ（.nupkg）
+- プラグイン: publish フォルダ一式（.dll / .deps.json / .runtimeconfig.json / runtimes/**）
+
 ## サンプル: 日本のみ税率10%プラグイン
 - 共通契約/DTO（Abstractions）:
 	- `IPlugin`
@@ -60,6 +79,24 @@ Req → |  Host (Evaluate) | --try→  | Plugin(s): Tax.JP   | --OK?→ Use plug
 - `Abstractions/Contoso.Plugin.Abstractions/src/ITaxCalculator.cs`
 - `Framework/Contoso.Framework/src/DefaultTaxCalculator.cs`
 - `Host/Contoso.Plugin.Host/Program.cs`（`EvaluateAsync`）
+
+## 互換性チェック（plugins.json）
+主要な設定項目:
+- probes: プラグインを探索するディレクトリのリスト
+- enabled: 有効なプラグインのリスト
+- id: プラグインの一意識別子
+- path: プラグインのディレクトリパス
+- minAbstractions/maxAbstractions: 互換性のある Abstractions バージョン範囲（[min, max)）
+
+サンプル:
+```
+{
+	"probes": ["./Plugins", "D:/customer-overrides"],
+	"enabled": [
+		{ "id": "Tax.JP", "path": "Plugins/Tax.JP/v1.0.0", "minAbstractions": "2.0.0", "maxAbstractions": "3.0.0" }
+	]
+}
+```
 
 ## 参考
 - 設計の要点と学び: `docs/learned.md`

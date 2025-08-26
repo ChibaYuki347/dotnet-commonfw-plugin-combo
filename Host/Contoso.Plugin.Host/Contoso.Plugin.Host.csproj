@@ -6,8 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <PackageReference Include="System.Text.Json" />
     <ProjectReference Include="..\..\Abstractions\Contoso.Plugin.Abstractions\Contoso.Plugin.Abstractions.csproj" />
+  <ProjectReference Include="..\..\Framework\Contoso.Framework\Contoso.Framework.csproj" />
     <!-- Build order only: ensure plugin builds, but don't reference its output at compile or runtime -->
     <ProjectReference Include="..\..\Plugins\Tax.JP\Tax.JP.csproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
