@@ -1,0 +1,32 @@
+# .NET build outputs
+bin/
+obj/
+TestResult*/
+*.user
+*.suo
+*.cache
+*.ide
+*.nupkg
+*.snupkg
+*.log
+*.tmp
+
+# IDE/OS
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Dist / publish artifacts
+dist/
+publish/
+out/
+
+# Local archives
+*.zip
+*.tar
+*.tar.gz
+
+# Exclude project-local docs prompt
+prompt.md

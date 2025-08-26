@@ -1,0 +1,6 @@
+{
+  "probes": ["./Plugins"],
+  "enabled": [
+  { "id": "Tax.JP", "path": "Plugins/Tax.JP/v1.0.0" }
+  ]
+}

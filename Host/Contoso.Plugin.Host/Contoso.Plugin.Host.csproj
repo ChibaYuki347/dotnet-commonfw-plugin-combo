@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <ProjectReference Include="..\..\Abstractions\Contoso.Plugin.Abstractions\Contoso.Plugin.Abstractions.csproj" />
+    <!-- Build order only: ensure plugin builds, but don't reference its output at compile or runtime -->
+    <ProjectReference Include="..\..\Plugins\Tax.JP\Tax.JP.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="plugins.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Target Name="CopyPluginsForDevRun" AfterTargets="Build">
+    <!-- Dev-time convenience: copy plugin outputs into Host output so dotnet run works -->
+    <PropertyGroup>
+      <PluginDest>$(OutDir)Plugins\Tax.JP\v1.0.0</PluginDest>
+      <PluginDll>$(MSBuildProjectDirectory)\..\..\Plugins\Tax.JP\bin\$(Configuration)\$(TargetFramework)\Tax.JP.dll</PluginDll>
+      <PluginJson>$(MSBuildProjectDirectory)\..\..\Plugins\Tax.JP\plugin.json</PluginJson>
+    </PropertyGroup>
+    <MakeDir Directories="$(PluginDest)" />
+    <Copy SourceFiles="$(PluginDll)" DestinationFolder="$(PluginDest)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(PluginJson)" DestinationFolder="$(PluginDest)" SkipUnchangedFiles="true" Condition="Exists('$(PluginJson)')" />
+  </Target>
+</Project>

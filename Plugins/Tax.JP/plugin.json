@@ -1,0 +1,6 @@
+{
+  "id": "Tax.JP",
+  "description": "Apply 10% consumption tax for Japan only.",
+  "country": "JP",
+  "rate": 0.10
+}
