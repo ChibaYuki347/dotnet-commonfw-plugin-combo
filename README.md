@@ -30,5 +30,36 @@ MSBuild ターゲットにより、`plugins.json` と JP プラグイン成果�
 - `Plugins/Tax.JP/plugin.json`
 	- プラグイン固有設定（国/税率）。プラグインが実行時に読み込みます。
 
+## 共通FW優先＋プラグイン上書き（推奨フロー）
+「まず共通FW（NuGet）で処理、個別要件がある場合のみプラグインで上書き」の明示サンプルを同梱しています。
+
+- 共通FW（NuGet化想定）: `Framework/Contoso.Framework`
+	- 既定実装: `DefaultTaxCalculator`（0%）。
+- 契約（Abstractions）:
+	- `ITaxCalculator`/`IPlugin` と `TaxRequest`/`TaxResult` DTO。
+- プラグイン（例: 日本向け10%）: `Plugins/Tax.JP`
+	- `plugin.json` で `country=JP`, `rate=0.10` を宣言。
+- ホストの制御: `Host/Contoso.Plugin.Host/Program.cs`
+	- 手順: 1) プラグインに問い合わせ（`Applied==true` なら採用）→ 2) 不採用なら共通FW `DefaultTaxCalculator` へフォールバック。
+
+簡易図:
+
+```
+			+-------------------+         +---------------------+
+Req → |  Host (Evaluate) | --try→  | Plugin(s): Tax.JP   | --OK?→ Use plugin
+			+-------------------+         +---------------------+
+								 | no
+								 v
+				 +---------------------+
+				 | Framework (NuGet)  |
+				 | DefaultTaxCalculator|
+				 +---------------------+ → Use default
+```
+
+該当箇所:
+- `Abstractions/Contoso.Plugin.Abstractions/src/ITaxCalculator.cs`
+- `Framework/Contoso.Framework/src/DefaultTaxCalculator.cs`
+- `Host/Contoso.Plugin.Host/Program.cs`（`EvaluateAsync`）
+
 ## 参考
 - 設計の要点と学び: `docs/learned.md`
