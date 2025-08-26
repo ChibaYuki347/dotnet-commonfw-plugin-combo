@@ -65,9 +65,3 @@
 - Abstractions: 2.0.0
 - Framework: 1.0.0
 - Tax.JP: 1.0.0（互換範囲: Abstractions [2.0.0, 3.0.0)）
-
----
-
-参考:
-- Semantic Versioning: https://semver.org/lang/ja/
-- .NET AssemblyLoadContext / AssemblyDependencyResolver ベストプラクティス

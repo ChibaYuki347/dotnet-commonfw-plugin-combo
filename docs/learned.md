@@ -34,10 +34,5 @@
 - ロールバックの難しさ: バージョン別フォルダ＋plugins.json 切替で回避。
 - 実行環境差: RID別 publish を採用し、必要に応じてネイティブ解決（NativeLibrary.SetDllImportResolver）を利用。
 
-## 次アクション（短期）
-- plugins.json に有効プラグインと path を明記（例: Plugins/Tax.JP/v1.0.0）。
-- Host/Plugin の publish パスを dist/ 配下で標準化（Host: dist/Host、Plugin: dist/Plugins/{Id}/vX.Y.Z）。
-- 起動時チェックに Abstractions 許容範囲の検証（[min,max)）を実装・確認。
+＝
 
----
-本メモは prompt.md の設計指針を“運用・拡張時に参照する要点”として要約したものです。詳細は prompt.md・Host 実装（PluginLoadContext／PluginManager）・plugins.json を参照してください。

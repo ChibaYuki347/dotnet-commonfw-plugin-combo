@@ -126,6 +126,6 @@ Req → |  Host (Evaluate) | --try→  | Plugin(s): Tax.JP   | --OK?→ Use plug
 - .NET: 8.0.x / OS: windows-latest
 
 ## 参考
-- 設計の要点と学び: `docs/learned.md`
-- バージョニング方針: `docs/versioning.md`
-- 変更履歴: `CHANGELOG.md`
+- [設計の要点と学び — docs/learned.md](docs/learned.md)
+- [バージョニング方針 — docs/versioning.md](docs/versioning.md)
+- [変更履歴 — CHANGELOG.md](CHANGELOG.md)
