@@ -3,8 +3,17 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+  <Version>1.0.0</Version>
+  <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Abstractions\Contoso.Plugin.Abstractions\Contoso.Plugin.Abstractions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </None>
   </ItemGroup>
 </Project>

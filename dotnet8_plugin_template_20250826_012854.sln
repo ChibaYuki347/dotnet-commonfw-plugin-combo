@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tax.JP", "Plugins\Tax.JP\Ta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Plugin.Abstractions", "Abstractions\Contoso.Plugin.Abstractions\Contoso.Plugin.Abstractions.csproj", "{C8E80C57-F852-B1AB-F773-EC8DB0DA23F9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{D4D967B6-ECAB-4C39-BB83-811EB2A915C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contoso.Framework", "Framework\Contoso.Framework\Contoso.Framework.csproj", "{A5C9D0B0-6A20-4D5E-9D2A-5B4E7245C4B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,10 @@ Global
 		{C8E80C57-F852-B1AB-F773-EC8DB0DA23F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8E80C57-F852-B1AB-F773-EC8DB0DA23F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8E80C57-F852-B1AB-F773-EC8DB0DA23F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5C9D0B0-6A20-4D5E-9D2A-5B4E7245C4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5C9D0B0-6A20-4D5E-9D2A-5B4E7245C4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5C9D0B0-6A20-4D5E-9D2A-5B4E7245C4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5C9D0B0-6A20-4D5E-9D2A-5B4E7245C4B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,6 +48,7 @@ Global
 		{61F20857-5180-7286-0E06-3CCFB4D441CC} = {7226ABEA-787E-1D09-10EA-A2ECF996D6A6}
 		{C546814C-48AA-9F3D-326D-6BAA546DB784} = {07D57EEB-2F50-60C4-C011-FE4FA775C9A8}
 		{C8E80C57-F852-B1AB-F773-EC8DB0DA23F9} = {67BFE618-E232-7DE5-34A1-02EE902F7C19}
+		{A5C9D0B0-6A20-4D5E-9D2A-5B4E7245C4B2} = {D4D967B6-ECAB-4C39-BB83-811EB2A915C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {584CEE5C-2DB6-49C1-903D-E3C36D485AC8}

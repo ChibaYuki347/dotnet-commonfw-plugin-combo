@@ -16,6 +16,26 @@ publish せずに開発中でも実行できます。
 
 MSBuild ターゲットにより、`plugins.json` と JP プラグイン成果物がホストの出力先にコピーされ、`Plugins/Tax.JP/v1.0.0` を自動で発見できます。
 
+## ディレクトリ構成
+```
+.
+├─ Abstractions/
+│  └─ Contoso.Plugin.Abstractions/
+├─ Framework/
+│  └─ Contoso.Framework/
+├─ Host/
+│  └─ Contoso.Plugin.Host/
+├─ Plugins/
+│  └─ Tax.JP/
+├─ docs/
+│  ├─ learned.md
+│  └─ versioning.md
+├─ Directory.Packages.props
+├─ dotnet8_plugin_template_20250826_012854.sln
+├─ README.md
+└─ CHANGELOG.md
+```
+
 ## Publish 手順（日本語）
 共通FW／Abstractions（NuGet成果物）
 - バージョンは SemVer 準拠。CPM（`Directory.Packages.props`）で依存を一元管理。
@@ -67,8 +87,8 @@ MSBuild ターゲットにより、`plugins.json` と JP プラグイン成果�
 			+-------------------+         +---------------------+
 Req → |  Host (Evaluate) | --try→  | Plugin(s): Tax.JP   | --OK?→ Use plugin
 			+-------------------+         +---------------------+
-								 | no
-								 v
+						 | no
+						 v
 				 +---------------------+
 				 | Framework (NuGet)  |
 				 | DefaultTaxCalculator|
@@ -107,3 +127,5 @@ Req → |  Host (Evaluate) | --try→  | Plugin(s): Tax.JP   | --OK?→ Use plug
 
 ## 参考
 - 設計の要点と学び: `docs/learned.md`
+- バージョニング方針: `docs/versioning.md`
+- 変更履歴: `CHANGELOG.md`
