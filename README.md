@@ -98,5 +98,12 @@ Req → |  Host (Evaluate) | --try→  | Plugin(s): Tax.JP   | --OK?→ Use plug
 }
 ```
 
+## CI（pack と publish の分離）
+- ワークフロー: `.github/workflows/dotnet-ci.yml`
+- ジョブ構成:
+	- pack: Abstractions / Framework を `dotnet pack`（.nupkg をアーティファクト `nupkgs` として保存）
+	- publish: Host と Plugins（Tax.JP）を `dotnet publish`（`dist/**` をアーティファクト `app-dist-winx64` として保存）
+- .NET: 8.0.x / OS: windows-latest
+
 ## 参考
 - 設計の要点と学び: `docs/learned.md`

@@ -1,0 +1,83 @@
+name: dotnet-ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  SOLUTION: 'dotnet8_plugin_template_20250826_012854.sln'
+  CONFIG: 'Release'
+
+jobs:
+  pack:
+    name: Pack NuGet (Abstractions/Framework)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+
+      - name: Restore
+        run: dotnet restore $env:SOLUTION
+
+      - name: Build
+        run: dotnet build $env:SOLUTION -c $env:CONFIG --no-restore
+
+      - name: Pack Abstractions
+        run: dotnet pack .\Abstractions\Contoso.Plugin.Abstractions -c $env:CONFIG -o .\artifacts\nupkgs --no-build
+
+      - name: Pack Framework
+        run: dotnet pack .\Framework\Contoso.Framework -c $env:CONFIG -o .\artifacts\nupkgs --no-build
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: nupkgs
+          path: artifacts/nupkgs/*.nupkg
+
+  publish:
+    name: Publish Host and Plugins (win-x64)
+    runs-on: windows-latest
+    needs: pack
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+
+      - name: Restore
+        run: dotnet restore $env:SOLUTION
+
+      - name: Build
+        run: dotnet build $env:SOLUTION -c $env:CONFIG --no-restore
+
+      - name: Publish Plugin (Tax.JP)
+        run: |
+          dotnet publish .\Plugins\Tax.JP -c $env:CONFIG -r win-x64 --self-contained false -o .\dist\Plugins\Tax.JP\v1.0.0
+
+      - name: Publish Host
+        run: |
+          dotnet publish .\Host\Contoso.Plugin.Host -c $env:CONFIG -r win-x64 --self-contained false -o .\dist\Host
+
+      - name: Tree (dist)
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse .\dist | Select-Object FullName
+
+      - name: Upload distribution
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-dist-winx64
+          path: dist/**
